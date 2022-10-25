@@ -1,16 +1,27 @@
-# Allows you to run this app easily in a docker image.
+# Allows you to run this app easily as a docker container.
 # See README.md for more details.
+#
+# 1. Build the image with: docker build --no-cache -t test/vaadin14-embedded-jetty-gradle:latest .
+# 2. Run the image with: docker run --rm -ti -p8080:8080 test/vaadin14-embedded-jetty-gradle
+#
+# Uses Docker Multi-stage builds: https://docs.docker.com/build/building/multi-stage/
 
-# Build stage
+# The "Build" stage. Copies the entire project into the container, into the /app/ folder, and builds it.
 FROM openjdk:11 AS BUILD
-COPY build/distributions/vaadin14-embedded-jetty-gradle.zip /app/
-WORKDIR /app
-RUN unzip vaadin14-embedded-jetty-gradle.zip
+COPY . /app/
+WORKDIR /app/
+RUN ./gradlew clean test --no-daemon --info --stacktrace
+RUN ./gradlew build -Pvaadin.productionMode --no-daemon --info --stacktrace
+WORKDIR /app/build/distributions/
+RUN ls -la
+RUN unzip app.zip
+# At this point, we have the app (executable bash scrip plus a bunch of jars) in the
+# /app/build/distributions/app/ folder.
 
-# Run stage
+# The "Run" stage. Start with a clean image, and copy over just the app itself, omitting gradle, npm and any intermediate build files.
 FROM openjdk:11
-COPY --from=BUILD /app/vaadin14-embedded-jetty-gradle /app/
+COPY --from=BUILD /app/build/distributions/app /app/
 WORKDIR /app/bin
 EXPOSE 8080
-ENTRYPOINT ./vaadin14-embedded-jetty-gradle
+ENTRYPOINT ./app
 
