@@ -6,10 +6,6 @@ plugins {
 
 defaultTasks("clean", "build")
 
-// don't use Jetty 10 - requres Java 11
-// don't use Jetty 11+ - uses jakarta.Servlet instead of javax.Servlet which makes it incompatible with Vaadin
-def jettyVersion = "9.4.49.v20220914"
-
 repositories {
     mavenCentral()
 }
@@ -23,22 +19,13 @@ dependencies {
          "org.webjars.bowergithub.vaadin", "org.webjars.bowergithub.webcomponents"]
                 .forEach { group -> exclude(group: group) }
     }
-
-    implementation("javax.servlet:javax.servlet-api:4.0.1")
-
-    // Embedded Jetty dependencies
-    implementation("org.eclipse.jetty:jetty-continuation:${jettyVersion}")
-    implementation("org.eclipse.jetty:jetty-server:${jettyVersion}")
-    implementation("org.eclipse.jetty.websocket:websocket-server:${jettyVersion}")
-    implementation("org.eclipse.jetty.websocket:javax-websocket-server-impl:${jettyVersion}") {
-        exclude(module: "javax.websocket-client-api")
-    }
+    implementation("com.github.mvysny.vaadin-boot:vaadin-boot:10.0")
 
     implementation('org.jetbrains:annotations:22.0.0')
 
     // logging
     // currently we are logging through the SLF4J API to SLF4J-Simple. See src/main/resources/simplelogger.properties file for the logger configuration
-    implementation('org.slf4j:slf4j-simple:1.7.32')
+    implementation('org.slf4j:slf4j-simple:2.0.0')
 
     // Fast Vaadin unit-testing with Karibu-Testing: https://github.com/mvysny/karibu-testing
     testImplementation("com.github.mvysny.kaributesting:karibu-testing-v10:1.3.21")
@@ -46,8 +33,8 @@ dependencies {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 test {
@@ -60,8 +47,3 @@ test {
 application {
     mainClassName = "com.vaadin.starter.skeleton.Main"
 }
-
-vaadin {
-//    pnpmEnable = false  // workaround for https://github.com/vaadin/flow/issues/10571
-}
-
