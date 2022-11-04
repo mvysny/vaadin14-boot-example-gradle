@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'application'
-    id 'com.vaadin' version '0.14.8.1'
+    id 'com.vaadin' version '0.14.9.1'
 }
 
 defaultTasks("clean", "build")
@@ -12,14 +12,14 @@ repositories {
 
 dependencies {
     // Vaadin 14
-    implementation("com.vaadin:vaadin-core:14.8.20") {
+    implementation("com.vaadin:vaadin-core:14.9.1") {
 //         Webjars are only needed when running in Vaadin 13 compatibility mode
         ["com.vaadin.webjar", "org.webjars.bowergithub.insites",
          "org.webjars.bowergithub.polymer", "org.webjars.bowergithub.polymerelements",
          "org.webjars.bowergithub.vaadin", "org.webjars.bowergithub.webcomponents"]
                 .forEach { group -> exclude(group: group) }
     }
-    implementation("com.github.mvysny.vaadin-boot:vaadin-boot:10.0")
+    implementation("com.github.mvysny.vaadin-boot:vaadin-boot:10.1")
 
     implementation('org.jetbrains:annotations:22.0.0')
 
