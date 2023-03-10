@@ -11,7 +11,7 @@ FROM openjdk:11 AS BUILD
 COPY . /app/
 WORKDIR /app/
 RUN ./gradlew clean test --no-daemon --info --stacktrace
-RUN ./gradlew build -Pvaadin.productionMode --no-daemon --info --stacktrace
+RUN ./gradlew clean build -Pvaadin.productionMode --no-daemon --info --stacktrace
 WORKDIR /app/build/distributions/
 RUN ls -la
 RUN unzip app.zip
