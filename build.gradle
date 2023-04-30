@@ -19,7 +19,7 @@ dependencies {
          "org.webjars.bowergithub.vaadin", "org.webjars.bowergithub.webcomponents"]
                 .forEach { group -> exclude(group: group) }
     }
-    implementation("com.github.mvysny.vaadin-boot:vaadin-boot:10.4")
+    implementation("com.github.mvysny.vaadin-boot:vaadin-boot:10.5")
 
     implementation('org.jetbrains:annotations:23.1.0')
 
