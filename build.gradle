@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'application'
-    id 'com.vaadin' version '0.14.9.1'
+    id 'com.vaadin' version '0.14.10.4'
 }
 
 defaultTasks("clean", "build")
@@ -12,7 +12,7 @@ repositories {
 
 dependencies {
     // Vaadin 14
-    implementation("com.vaadin:vaadin-core:14.9.8") {
+    implementation("com.vaadin:vaadin-core:14.10.4") {
 //         Webjars are only needed when running in Vaadin 13 compatibility mode
         ["com.vaadin.webjar", "org.webjars.bowergithub.insites",
          "org.webjars.bowergithub.polymer", "org.webjars.bowergithub.polymerelements",
