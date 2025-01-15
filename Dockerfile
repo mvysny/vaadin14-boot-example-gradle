@@ -10,7 +10,7 @@
 FROM openjdk:11 AS BUILD
 COPY . /app/
 WORKDIR /app/
-RUN --mount=type=cache,target=/root/.gradle --mount=type=cache,target=/root/.vaadin ./gradlew clean build -Pvaadin.productionMode --no-daemon --info --stacktrace
+RUN --mount=type=cache,target=/root/.gradle ./gradlew clean build -Pvaadin.productionMode --no-daemon --info --stacktrace
 WORKDIR /app/build/distributions/
 RUN ls -la
 RUN unzip app.zip
